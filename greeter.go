@@ -14,7 +14,7 @@ func main() {
 }
 
 func HelloServer(w http.ResponseWriter, r *http.Request) {
-	fmtStr := fmt.Sprintf("Hello, %s! I'm %s", GetIPFromRequest(r), os.Getenv("HOSTNAME"), os.Getenv("HELLO_TAG")))
+	fmtStr := fmt.Sprintf("Hello, %s! I'm %s", GetIPFromRequest(r), os.Getenv("HOSTNAME"), "This is my HELLO_TAG", os.Getenv("HELLO_TAG"))
 	fmt.Println(fmtStr)
 	fmt.Fprintln(w, fmtStr)
 }
