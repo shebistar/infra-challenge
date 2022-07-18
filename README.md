@@ -21,13 +21,17 @@ You can build and run a go app in many ways, easiest is the following:
 
 ## Building the application (With Docker for local testing)
 
-    docker build -t greeter:v1 .
+    ./build.sh
     
-## Running the application (With Docker for local testing)
+    Type app version to build: v1.1 #(Type version here)
+    
+    Do you want to run the app Y/N: y
+    Launch the app by opening the URL: http://localhost:8080
+    Hivemind's Go Greeter
+    You are running the service with this tag:  Helloooo World!
 
-    docker run -p 8080:8080 greeter:v1    
     
-## Testing the application (With Docker for local testing)
+## Testing the application (With Docker for local testing) Open your favorite browser or simply run from the CLI
     
     curl localhost:8080
 
