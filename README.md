@@ -162,7 +162,44 @@ Terraform has been successfully initialized!
 
 Click on Sign in
 
+# Deploy App on EKS
 
+## Check role for ELB
+
+	$ aws iam get-role --role-name "AWSServiceRoleForElasticLoadBalancing" || aws iam create-service-linked-role --aws-service-name "elasticloadbalancing.amazonaws.com"
+
+	{
+    "Role": {
+        "Path": "/aws-service-role/elasticloadbalancing.amazonaws.com/",
+        "RoleName": "AWSServiceRoleForElasticLoadBalancing",
+        "RoleId": "AROA4CZIJXSQ5TRGM6SKM",
+	-- Output ommitted
+
+
+### Deploy App in EKS cluster
+
+
+#### Create namespace
+
+	$ kubectl create -f kubernetes/namespace.yaml
+
+#### Deploy Application
+
+	$ kubectl apply -f kubernetes/deployment.yaml 
+	$ kubectl apply -f kubernetes/service.yaml
+
+
+#### Get URL for Application
+
+	$ kubectl get service hivemind-app -o wide -n hivemind
+	NAME               TYPE           CLUSTER-IP    EXTERNAL-IP                                                                 PORT(S)        AGE   SELECTOR
+	hidemind-app	   LoadBalancer   XXX.XX.XX.X   XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX-XXXXXXXXX.eu-central-1.elb.amazonaws.com   80:XXXXX/TCP   XXm   app=hivemind-app
+
+- Take the value in the EXTERNAL-IP column and use a browser to access to the Site:
+
+- It should display something like this:
+
+	Hello, XX.X.X.XX:XXXXX! I'm hivemind-app-XXXXXXXXXX-XXXXXX!(EXTRA string=This is my HELLO_TAG, string=Hellooooo World!) 
    
 ## Resources
 
