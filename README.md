@@ -47,7 +47,7 @@ You can build and run a go app in many ways, easiest is the following:
 - AWS CLI configured
 - AWS IAM Authenticator
 - kubectl
-- wget (required for installing the eks module)
+- curl (required for installing the eks module)
 
 ### All values in repo are ready for deploying the cluster if the prerequisites are OK.
 
@@ -60,7 +60,7 @@ You can build and run a go app in many ways, easiest is the following:
 
 ### Starting with Terraform to deploy EKS
 
-#### Step one is to initialize terraform
+#### 1. Initialize terraform
 
     terraform init
     Initializing modules...
@@ -72,7 +72,7 @@ You can build and run a go app in many ways, easiest is the following:
 
 Terraform has been successfully initialized!
 
-#### Step two is to deploy EKS using terraform
+#### 2. Deploy EKS using terraform
 
     terraform apply
     module.eks.module.fargate.data.aws_partition.current: Reading...
@@ -95,7 +95,75 @@ Terraform has been successfully initialized!
     module.eks.aws_iam_policy.cluster_deny_log_group[0]: Creating...
     -- Output ommitted 
     
-    
+#### 3. Configure kubectl for deploying the App
+
+### After provisioning the EKS cluster, you need to configure kubectl
+
+	$ aws eks --region $(terraform output -raw region) update-kubeconfig --name $(terraform output -raw cluster_name)
+
+	Added new context arn:aws:eks:eu-central-1:8306238XXXXX:cluster/hivemind-eks-XXXXXXXX to ~.kube/config
+
+### Deploy metrics-server for monitoring
+
+	$ curl -o v0.3.6.tar.gz https://codeload.github.com/kubernetes-sigs/metrics-server/tar.gz/v0.3.6 && tar -xzf v0.3.6.tar.gz
+
+	$ kubectl apply -f metrics-server-0.3.6/deploy/1.8+/
+ 	clusterrole.rbac.authorization.k8s.io/system:aggregated-metrics-reader created
+	clusterrolebinding.rbac.authorization.k8s.io/metrics-server:system:auth-delegator created
+
+	-- Output ommitted 
+ 
+### Verify deployment of metrics server
+	
+	$ kubectl get deployment metrics-server -n kube-system
+
+### Deploy Kubernetes Dashboard
+
+	$ kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta8/aio/deploy/recommended.yaml
+	namespace/kubernetes-dashboard created
+	serviceaccount/kubernetes-dashboard created
+	service/kubernetes-dashboard created
+	secret/kubernetes-dashboard-certs created
+
+	-- Output ommitted
+
+### Launch kubectl proxy to access to Web UI
+
+	$ kubectl proxy
+	Starting to serve on 127.0.0.1:8001
+
+- Use the following URL to access the dashboard: http://127.0.0.1:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/
+
+### Create authentication resources for accessing the Dashboard (Don't close the window used for kubectl proxy for this), open a new terminal
+
+	$ kubectl apply -f https://raw.githubusercontent.com/hashicorp/learn-terraform-provision-eks-cluster/main/kubernetes-dashboard-admin.rbac.yaml
+	serviceaccount/admin-user created
+	clusterrolebinding.rbac.authorization.k8s.io/admin-user created
+
+### Generate the authentication token for the dashboard:
+
+	$ kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep service-controller-token | awk '{print $1}')
+
+### Copy and paste the Token for authenticating the dashboard
+
+	Name:         service-controller-token-wz2gl
+	Namespace:    kube-system
+	Labels:       <none>
+	Annotations:  kubernetes.io/service-account.name: service-controller
+              kubernetes.io/service-account.uid: 09614dc9-bc12-4595-9985-4210a8442a3c
+
+	Type:  kubernetes.io/service-account-token
+
+	Data
+	====
+	ca.crt:     1066 bytes
+	namespace:  11 bytes
+	token:      -- Output ommitted
+
+Click on Sign in
+
+
+   
 ## Resources
 
 - [AWS Cloud Development Kit](https://aws.amazon.com/cdk/)
