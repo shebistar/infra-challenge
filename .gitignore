@@ -1,2 +1,3 @@
 terraform/.terraform*
 terraform/terraform.tfstate*
+metrics-server-0.3.6*
