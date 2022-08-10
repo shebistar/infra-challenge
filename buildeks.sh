@@ -16,6 +16,7 @@ kubectl create -f kubernetes/namespace.yaml -n hivemind
 kubectl apply -f kubernetes/deployment.yaml -n hivemind
 kubectl apply -f kubernetes/service.yaml -n hivemind
 kubectl get service hivemind-app -o wide -n hivemind
+#while 
 ELB=$(kubectl get service hivemind-app -n hivemind -o json | jq -r '.status.loadBalancer.ingress[].hostname')
 echo ""
 echo ""
@@ -23,13 +24,27 @@ echo ""
 echo ""
 echo ""
 echo ""
-echo "This is the URL for the service:"
 echo ""
 echo ""
 echo ""
 echo "Checking Service:"
 #### TODO: Wait for service to be online in the previous command, with sleep or while
-curl -m3 -v $ELB
+#while [ "$ELB" != "null" ] 
+#do
+echo "waiting on ELB to come up......."
+#ELB=$(kubectl get service hivemind-app -n hivemind -o json | jq -r '.status.loadBalancer.ingress[].hostname')
+sleep 100
+#done
+
+echo "testing the service:"
+echo ""
+echo ""
+ELB=$(kubectl get service hivemind-app -n hivemind -o json | jq -r '.status.loadBalancer.ingress[].hostname')
+echo -n "This is the URL for the service: $ELB"
+#curl -m3 -v $ELB
+curl $ELB
+echo ""
+echo ""
 
 #cd ..
 
