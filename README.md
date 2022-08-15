@@ -12,6 +12,7 @@ The challenge consists in deploying a web service in a highly available environm
 
 We should be able to deploy your solution in any AWS account.
 
+
 ## Building the application (Without Docker)
 
 You can build and run a go app in many ways, easiest is the following:
@@ -19,21 +20,47 @@ You can build and run a go app in many ways, easiest is the following:
     go build -o greeter greeter.go
     ./greeter
 
+# Prerequisites for building with Docker
+
+- Having configured the aws cli with your Access keys: https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html
+
+- Having a public ECR repository created and accesible (you need the repo name for next step): Go to Example 1 in https://docs.aws.amazon.com/cli/latest/reference/ecr/create-repository.html
+
 ## Building the application (With Docker for local testing)
 
-    ./build.sh
+### Edit Dockerfile for changing the HELLO_TAG variable
+
+#### Take a look at the line ENV HELLO_TAG="Hellooooo World!" in the Dockerfile file and change the variable as you wish"
+
+### Edit ECR repository in case you want to use a different one that matches with your AWS account
+
+#### in the builddocker.sh script, look for the dockerrepo="public.ecr.aws/XXXXXXXX", and use your desired repo
+
+## Execute the buildocker.sh script
+
+    ./builddocker.sh
     
-    Type app version to build: v1.1 #(Type version here)
+    Login Succeeded
+    Type app version to build: v1.15 
+
+    Container to be build/push: public.ecr.aws/a7r4i9q7/greeter:v1.15
+
+    docker repo public.ecr.aws/a7r4i9q7 and version v1.15  full repo   public.ecr.aws/a7r4i9q7/greeter:v1.15
+
+    -- Output omitted
     
-    Do you want to run the app Y/N: y
-    Launch the app by opening the URL: http://localhost:8080
+    latest: digest: sha256:eeaa86ac46bd7e19c48b66c6b6c112d79b0ea9cafac06bb1c2ee32ff278b4ea3 size: 949
+    Do you want to run the app locally? Y/N: Y
+    
+    Launch the app by opening the URL: http://localhost:80
     Hivemind's Go Greeter
-    You are running the service with this tag:  Helloooo World!
+    You are running the service with this tag:  Hellooooo World!
+    This is my version:  v1.15
 
     
-## Testing the application (With Docker for local testing) Open your favorite browser or simply run from the CLI
+## Testing the application (With Docker for local testing) Open your favorite browser http://localhost:80 or simply run from the CLI
     
-    curl localhost:8080
+    curl localhost:80
 
 
 # Building the app for EKS
