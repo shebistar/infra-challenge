@@ -1,18 +1,21 @@
 #!/bin/bash
-dockerrepo="quay.io/juansebasrodriguez"
+dockerrepo="public.ecr.aws/a7r4i9q7"
 aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws
 echo -n "Type app version to build: "
 read ver
 echo ""
 echo "Container to be build/push: $dockerrepo/greeter:$ver"
 echo ""
-docker build -t $dockerrepo/greeter:$ver .
-docker build -t $dockerrepo/greeter:latest .
+echo "docker repo $dockerrepo and version $ver  full repo   $dockerrepo/greeter:$ver"
+sed "s/^ENV VERSION=.*/ENV VERSION=$ver/" Dockerfile >Dockerfile.new
+mv Dockerfile.new Dockerfile
+docker buildx build --platform linux/amd64,linux/arm64 --push -t $dockerrepo/greeter:$ver .
+docker buildx build --platform linux/amd64,linux/arm64 --push -t $dockerrepo/greeter:latest .
 docker push $dockerrepo/greeter:$ver
 docker push $dockerrepo/greeter:latest
-echo -n "Do you want to run the app Y/N: "
+echo -n "Do you want to run the app locally? Y/N: "
 read ans
 case $ans in
 #Y | y) echo "Launch the app by opening the URL: http://localhost:8080"; docker run -p 8080:8080 $dockerrepo/greeter:$ver;; 
-Y | y) echo "Launch the app by opening the URL: http://localhost:80"; docker run -p 80:80 $dockerrepo/greeter:$ver;; 
+Y | y) echo "Launch the app by opening the URL: http://localhost:80"; docker run -p 80:8080 $dockerrepo/greeter:$ver;; 
 esac
