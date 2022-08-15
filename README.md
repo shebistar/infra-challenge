@@ -12,6 +12,12 @@ The challenge consists in deploying a web service in a highly available environm
 
 We should be able to deploy your solution in any AWS account.
 
+# E2E Diagram of the solution:
+
+![alt text](https://github.com/shebistar/infra-challenge/blob/stage/E2E_Architecture.jpg?raw=true)
+
+- This solution is condensed in two scripts, builddocker.sh and buildeks.sh. The first one is to generate the container needed for deploying in the EKS cluster, the second one is to generate the infrastructure needed to deploy the solution.
+
 
 ## Building the application (Without Docker)
 
@@ -28,26 +34,26 @@ You can build and run a go app in many ways, easiest is the following:
 
 ## Building the application (With Docker for local testing)
 
-### Edit Dockerfile for changing the HELLO_TAG variable
+- Edit Dockerfile for changing the HELLO_TAG variable
 
-#### Take a look at the line ENV HELLO_TAG="Hellooooo World!" in the Dockerfile file and change the variable as you wish"
+- Take a look at the line ENV HELLO_TAG="Hellooooo World!" in the Dockerfile file and change the variable as you wish"
 
-### Edit ECR repository in case you want to use a different one that matches with your AWS account
+- Edit ECR repository in case you want to use a different one that matches with your AWS account
 
-#### in the builddocker.sh script, look for the dockerrepo="public.ecr.aws/XXXXXXXX", and use your desired repo
+  - in the builddocker.sh script, look for the dockerrepo="public.ecr.aws/XXXXXXXX", and use your desired repo
 
 ## Execute the buildocker.sh script
 
     ./builddocker.sh
     
-    Login Succeeded
+    "Login Succeeded
     Type app version to build: v1.15 
 
     Container to be build/push: public.ecr.aws/a7r4i9q7/greeter:v1.15
 
     docker repo public.ecr.aws/a7r4i9q7 and version v1.15  full repo   public.ecr.aws/a7r4i9q7/greeter:v1.15
 
-    -- Output omitted
+    -- Output omitted 
     
     latest: digest: sha256:eeaa86ac46bd7e19c48b66c6b6c112d79b0ea9cafac06bb1c2ee32ff278b4ea3 size: 949
     Do you want to run the app locally? Y/N: Y
