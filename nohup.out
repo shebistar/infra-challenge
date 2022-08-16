@@ -8,3 +8,6 @@ error: listen tcp 127.0.0.1:8001: bind: address already in use
 error: listen tcp 127.0.0.1:8001: bind: address already in use
 error: listen tcp 127.0.0.1:8001: bind: address already in use
 error: listen tcp 127.0.0.1:8001: bind: address already in use
+error: listen tcp 127.0.0.1:8001: bind: address already in use
+error: listen tcp 127.0.0.1:8001: bind: address already in use
+error: listen tcp 127.0.0.1:8001: bind: address already in use

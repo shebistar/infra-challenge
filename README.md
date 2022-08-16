@@ -14,7 +14,7 @@ We should be able to deploy your solution in any AWS account.
 
 # E2E Diagram of the solution:
 
-![E2E Diagram](https://github.com/shebistar/infra-challenge/blob/stage/E2E_Architecture.jpg?raw=true)
+![E2E Diagram](E2E_Architecture.jpg?raw=true)
 
 - This solution is condensed in two scripts, builddocker.sh and buildeks.sh. The first one is to generate the container needed for deploying in the EKS cluster, the second one is to generate the infrastructure needed to deploy the solution.
 
@@ -219,7 +219,7 @@ Open your favorite browser http://localhost:80 or simply run from the CLI
 
 Copy and Paste the token generated on the previous step and Click on `Sign in`
 
-![E2E Diagram](https://github.com/shebistar/infra-challenge/blob/stage/Kubernetes_Dashboard_Sign_In.png?raw=true)
+![E2E Diagram](Kubernetes_Dashboard_Sign_In.png?raw=true)
 
 # Deploy App on EKS
 
