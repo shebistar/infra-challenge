@@ -14,7 +14,7 @@ We should be able to deploy your solution in any AWS account.
 
 # E2E Diagram of the solution:
 
-![alt text](https://github.com/shebistar/infra-challenge/blob/stage/E2E_Architecture.jpg?raw=true)
+![E2E Diagram](https://github.com/shebistar/infra-challenge/blob/stage/E2E_Architecture.jpg?raw=true)
 
 - This solution is condensed in two scripts, builddocker.sh and buildeks.sh. The first one is to generate the container needed for deploying in the EKS cluster, the second one is to generate the infrastructure needed to deploy the solution.
 
@@ -34,13 +34,13 @@ You can build and run a go app in many ways, easiest is the following:
 
 ## Building the application (With Docker for local testing)
 
-- Edit Dockerfile for changing the HELLO_TAG variable
+- Edit Dockerfile for changing the `HELLO_TAG` variable
 
-- Take a look at the line ENV HELLO_TAG="Hellooooo World!" in the Dockerfile file and change the variable as you wish"
+- Take a look at the line `ENV HELLO_TAG="Hellooooo World!"` in the Dockerfile file and change the variable as you wish"
 
 - Edit ECR repository in case you want to use a different one that matches with your AWS account
 
-  - in the builddocker.sh script, look for the dockerrepo="public.ecr.aws/XXXXXXXX", and use your desired repo
+  - in the builddocker.sh script, look for the `dockerrepo="public.ecr.aws/XXXXXXXX"`, and use your desired repo
 
 ## Execute the buildocker.sh script
 
@@ -76,7 +76,7 @@ You can build and run a go app in many ways, easiest is the following:
 ### Prerequisites:
 
 - Terraform installed
-- an AWS account with the IAM permissions listed on the EKS module documentation,
+- an AWS account with the IAM permissions listed on the EKS module documentation
 - AWS CLI configured
 - AWS IAM Authenticator
 - kubectl
@@ -86,16 +86,16 @@ You can build and run a go app in many ways, easiest is the following:
 
 ## Interesting files:
 
-- vpc.tf (Definition for VPC, take a look in case you have overlaping with another VPC)
-- security-groups.tf (Definition for Security Groups, in case port 22 is not enough, update the policy)
-- versions.tf: In case an update is needed on any of the modules
-- eks-cluster.tf: You can define versions for EKS and instance types for worker nodes, as well as the Auto Scalling Group Desired Capacity)
+- `vpc.tf` (Definition for VPC, take a look in case you have overlaping with another VPC)
+- `security-groups.tf` (Definition for Security Groups, in case port 22 is not enough, update the policy)
+- `versions.tf`: In case an update is needed on any of the modules
+- `eks-cluster.tf`: You can define versions for EKS and instance types for worker nodes, as well as the Auto Scalling Group Desired Capacity)
 
-### Starting with Terraform to deploy EKS
+## Starting with Terraform to deploy EKS
 
-#### 1. Initialize terraform
+### 1. Initialize terraform
 
-### Go to terraform directory:
+#### Go to terraform directory:
 
 	$ cd terraform
 
@@ -109,7 +109,7 @@ You can build and run a go app in many ways, easiest is the following:
 
 Terraform has been successfully initialized!
 
-#### 2. Deploy EKS using terraform
+### 2. Deploy EKS using terraform
 
 	$ terraform apply
     module.eks.module.fargate.data.aws_partition.current: Reading...
@@ -123,7 +123,7 @@ Terraform has been successfully initialized!
     Enter a value: yes
 
     
-##### This process can take up to 10 minutes, so go grab a coffee or tea.
+#### This process can take up to 10 minutes, so go grab a coffee or tea.
 
 
     random_string.suffix: Creating...
@@ -132,15 +132,15 @@ Terraform has been successfully initialized!
     module.eks.aws_iam_policy.cluster_deny_log_group[0]: Creating...
     -- Output omitted 
     
-#### 3. Configure kubectl for deploying the App
+### 3. Configure kubectl for deploying the App
 
-### After provisioning the EKS cluster, you need to configure kubectl
+#### After provisioning the EKS cluster, you need to configure kubectl
 
 	$ aws eks --region $(terraform output -raw region) update-kubeconfig --name $(terraform output -raw cluster_name)
 
 	Added new context arn:aws:eks:eu-central-1:8306238XXXXX:cluster/hivemind-eks-XXXXXXXX to ~.kube/config
 
-### Deploy metrics-server for monitoring
+### 4. Deploy metrics-server for monitoring
 
 	$ cd ../kubernetes
 
@@ -152,11 +152,11 @@ Terraform has been successfully initialized!
 
 	-- Output omitted 
  
-### Verify deployment of metrics server
+### 5. Verify deployment of metrics server
 	
 	$ kubectl get deployment metrics-server -n kube-system
 
-### Deploy Kubernetes Dashboard
+### 6. Deploy Kubernetes Dashboard
 
 	$ kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta8/aio/deploy/recommended.yaml
 	namespace/kubernetes-dashboard created
@@ -166,24 +166,24 @@ Terraform has been successfully initialized!
 
 	-- Output omitted
 
-### Launch kubectl proxy to access to Web UI
+### 7. Launch kubectl proxy to access to Web UI
 
 	$ kubectl proxy
 	Starting to serve on 127.0.0.1:8001
 
 - Use the following URL to access the dashboard: http://127.0.0.1:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/
 
-### Create authentication resources for accessing the Dashboard (Don't close the window used for kubectl proxy for this), open a new terminal
+### 8. Create authentication resources for accessing the Dashboard (Don't close the window used for kubectl proxy for this), open a new terminal
 
 	$ kubectl apply -f https://raw.githubusercontent.com/hashicorp/learn-terraform-provision-eks-cluster/main/kubernetes-dashboard-admin.rbac.yaml
 	serviceaccount/admin-user created
 	clusterrolebinding.rbac.authorization.k8s.io/admin-user created
 
-### Generate the authentication token for the dashboard:
+### 9. Generate the authentication token for the dashboard:
 
 	$ kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep service-controller-token | awk '{print $1}')
 
-### Copy and paste the Token for authenticating the dashboard
+### 10. Copy and paste the Token for authenticating the dashboard
 
 	Name:         service-controller-token-wz2gl
 	Namespace:    kube-system
