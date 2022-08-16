@@ -241,7 +241,49 @@ Copy and Paste the token generated on the previous step and Click on `Sign in`
 
 	Hello, XXX.XX.XX.XX:XXXXX! I'm XXXXXXXXXXXXX!(EXTRA string=This is my HELLO_TAG, string=XXXXXXXXXXX, string=This is my VERSION, string=vX.XX)
 
-   
+# Extra - Integrate with Gitops using ArgoCD
+
+## The idea is to create one repo for maintaining the variables of the EKS cluster and the App deployed
+
+### First we need to check the requirements:
+
+#### Create Namespace and deployment
+
+
+	$ kubectl create namespace argocd
+	$ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+#### Install the CLI (Depends on the OS)
+
+For MacOS run the following:
+
+	$ brew install argocd
+
+For Linux run the following:
+
+	$ sudo curl --silent --location -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/download/v2.4.7/argocd-linux-amd64
+
+	$ sudo chmod +x /usr/local/bin/argocd
+
+### Expose ArgoCD-Server
+
+	$ kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
+
+#### Wait two minutes for the LoadBalancer creation
+
+	$ export ARGOCD_SERVER=`kubectl get svc argocd-server -n argocd -o json | jq --raw-output '.status.loadBalancer.ingress[0].hostname'`
+
+#### Login to ArgoCD
+
+	$ export ARGO_PWD=`kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d`
+	$ argocd login $ARGOCD_SERVER --username admin --password $ARGO_PWD --insecure
+
+you should get the following message:
+
+#### 'admin' logged in successfully
+
+
+
 # TL;DR (Check prerequisites)
 
 ## Docker build
@@ -259,4 +301,5 @@ Copy and Paste the token generated on the previous step and Click on `Sign in`
 - Docker build images for Go (https://docs.docker.com/language/golang/build-images/)
 - Terraform and EKS (https://learn.hashicorp.com/tutorials/terraform/eks)
 
+- Configure ArgoCD (https://www.eksworkshop.com/intermediate/290_argocd/configure/)
 
