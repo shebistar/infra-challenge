@@ -199,7 +199,9 @@ Terraform has been successfully initialized!
 	namespace:  11 bytes
 	token:      -- Output omitted
 
-Click on Sign in
+Click on `Sign in`
+
+![E2E Diagram](https://github.com/shebistar/infra-challenge/blob/stage/Kubernetes_Dashboard_Sign_In.png?raw=true)
 
 # Deploy App on EKS
 
