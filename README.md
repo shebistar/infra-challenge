@@ -40,7 +40,7 @@ You can build and run a go app in many ways, easiest is the following:
 
 - Edit ECR repository in case you want to use a different one that matches with your AWS account
 
-  - in the builddocker.sh script, look for the `dockerrepo="public.ecr.aws/XXXXXXXX"`, and use your desired repo
+  - in the `builddocker.sh` script, look for the `dockerrepo="public.ecr.aws/XXXXXXXX"`, and use your desired repo
 
 ## Execute the buildocker.sh script
 
@@ -64,7 +64,8 @@ You can build and run a go app in many ways, easiest is the following:
     This is my version:  v1.15
 
     
-## Testing the application (With Docker for local testing) Open your favorite browser http://localhost:80 or simply run from the CLI
+## Testing the application (With Docker for local testing) 
+Open your favorite browser http://localhost:80 or simply run from the CLI
     
     curl localhost:80
 
@@ -73,7 +74,7 @@ You can build and run a go app in many ways, easiest is the following:
 
 ## First to configure Terraform
 
-### Prerequisites:
+## Prerequisites:
 
 - Terraform installed
 - an AWS account with the IAM permissions listed on the EKS module documentation
@@ -107,7 +108,7 @@ You can build and run a go app in many ways, easiest is the following:
     Initializing provider plugins...
     -- Output omitted
 
-Terraform has been successfully initialized!
+	Terraform has been successfully initialized!
 
 ### 2. Deploy EKS using terraform
 
@@ -124,7 +125,6 @@ Terraform has been successfully initialized!
 
     
 #### This process can take up to 10 minutes, so go grab a coffee or tea.
-
 
     random_string.suffix: Creating...
     random_string.suffix: Creation complete after 0s [id=9VuZOcFn]
