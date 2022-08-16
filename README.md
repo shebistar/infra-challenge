@@ -199,13 +199,13 @@ Terraform has been successfully initialized!
 	namespace:  11 bytes
 	token:      -- Output omitted
 
-Click on `Sign in`
+Copy and Paste the token generated on the previous step and Click on `Sign in`
 
 ![E2E Diagram](https://github.com/shebistar/infra-challenge/blob/stage/Kubernetes_Dashboard_Sign_In.png?raw=true)
 
 # Deploy App on EKS
 
-## Check role for ELB
+### Check role for ELB
 
 	$ aws iam get-role --role-name "AWSServiceRoleForElasticLoadBalancing" || aws iam create-service-linked-role --aws-service-name "elasticloadbalancing.amazonaws.com"
 
@@ -217,12 +217,9 @@ Click on `Sign in`
 	-- Output omitted
 
 
-### Deploy App in EKS cluster
+### Create namespace
 
-
-#### Create namespace
-
-### Go to kubernetes folder
+#### Go to kubernetes folder
         
 	$ kubectl create -f kubernetes/namespace.yaml
 
@@ -238,11 +235,12 @@ Click on `Sign in`
 	NAME               TYPE           CLUSTER-IP    EXTERNAL-IP                                                                 PORT(S)        AGE   SELECTOR
 	hidemind-app	   LoadBalancer   XXX.XX.XX.X   XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX-XXXXXXXXX.eu-central-1.elb.amazonaws.com   80:XXXXX/TCP   XXm   app=hivemind-app
 
-- Take the value in the EXTERNAL-IP column and use a browser to access to the Site:
+- Take the value in the `EXTERNAL-IP` column and use a browser to access to the Site:
 
 - It should display something like this:
 
-	Hello, XX.X.X.XX:XXXXX! I'm hivemind-app-XXXXXXXXXX-XXXXXX!(EXTRA string=This is my HELLO_TAG, string=Hellooooo World!) 
+	Hello, XXX.XX.XX.XX:XXXXX! I'm XXXXXXXXXXXXX!(EXTRA string=This is my HELLO_TAG, string=XXXXXXXXXXX, string=This is my VERSION, string=vX.XX)
+
    
 # TL;DR (Check prerequisites)
 
