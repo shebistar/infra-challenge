@@ -30,8 +30,26 @@ You can build and run a go app in many ways, easiest is the following:
 
 - Having configured the aws cli with your Access keys: https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html
 
-- Having a public ECR repository created and accesible (you need the repo name for next step): Go to Example 1 in https://docs.aws.amazon.com/cli/latest/reference/ecr/create-repository.html
+- Having a public ECR repository created and accesible (you need the repo name for next step): Go to Example 1 in https://docs.aws.amazon.com/AmazonECR/latest/public/getting-started-cli.html
 
+#### Hint: You can create the public repo using the following command:
+
+	$ aws ecr-public create-repository \
+     --repository-name greeter \
+     --region us-east-1
+
+#### The output will look like this copy the `repositoryUri` parameter, you will need it for the `dockerrepo` parameter in the `builddocker.sh` script and also for the `deployment.yaml` file in the `kubernetes` folder of this repo, so you can update the deployment accordingly:
+
+	{
+    "repository": {
+        "repositoryArn": "arn:aws:ecr-public::XXXXXXXXXX:repository/greeter",
+        "registryId": "XXXXXXXX",
+        "repositoryName": "greeter",
+        "repositoryUri": "public.ecr.aws/XXXXXX/greeter",
+        "createdAt": "202X-XX-XXT15:26:30.903000+02:00"
+    },
+    "catalogData": {}
+	}
 ## Building the application (With Docker for local testing)
 
 - Edit Dockerfile for changing the `HELLO_TAG` variable
@@ -67,7 +85,7 @@ You can build and run a go app in many ways, easiest is the following:
 ## Testing the application (With Docker for local testing) 
 Open your favorite browser http://localhost:80 or simply run from the CLI
     
-    curl localhost:80
+    $ curl localhost:80
 
 
 # Building the app for EKS

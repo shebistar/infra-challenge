@@ -21,7 +21,7 @@ spec:
         app: hivemind-app
     spec:
       containers:
-      - image: public.ecr.aws/a7r4i9q7/greeter:v1.12
+      - image: public.ecr.aws/f8u3r2y0/greeter:latest
         imagePullPolicy: Always
         name: hivemind-app
         ports:
