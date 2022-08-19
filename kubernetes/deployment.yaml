@@ -32,8 +32,8 @@ spec:
           value: "Hello World!"
         resources:
           limits:
-            cpu: 300ms
+            cpu: 300m
             memory: 200Mi
           requests:
-            cpu: 30ms
+            cpu: 30m
             memory: 100mi
