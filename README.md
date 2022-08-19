@@ -263,6 +263,10 @@ Copy and Paste the token generated on the previous step and Click on `Sign in`
 
 ## The idea is to create one additional repo for maintaining the values of the EKS cluster controlled with Gitops
 
+## Prerequisites
+
+- ArgoCD CLI installed (Depending on your OS)
+
 ### First we need to check the requirements:
 
 #### Create Namespace and deployment
@@ -283,22 +287,36 @@ For Linux run the following:
 
 	$ sudo chmod +x /usr/local/bin/argocd
 
-### Expose ArgoCD-Server
+### Login to ArgoCD
 
-	$ kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
+	$ argocd login --core
+### Add the context to the cluster and change the k8s context for argocd so the cli commands can be executed
+	$ CONTEXT_NAME=`kubectl config view -o jsonpath='{.current-context}'`
+	$ argocd cluster add $CONTEXT_NAME
+	$ kubectl config set-context --current --namespace=argocd
 
-#### Wait two minutes for the LoadBalancer creation
 
-	$ export ARGOCD_SERVER=`kubectl get svc argocd-server -n argocd -o json | jq --raw-output '.status.loadBalancer.ingress[0].hostname'`
+### Create the app in Argocd CLI (take note if you are using the same repo/branch)
 
-#### Login to ArgoCD
+	$ argocd app create hivemind-app --repo https://github.com/shebistar/infra-challenge.git --revision stage --path kubernetes --dest-server https://kubernetes.default.svc --dest-namespace hivemind
 
-	$ export ARGO_PWD=`kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d`
-	$ argocd login $ARGOCD_SERVER --username admin --password $ARGO_PWD --insecure
+### Check the status of the app before syncing
 
-you should get the following message:
+	$ argocd app get hivemind-app
 
-#### 'admin' logged in successfully
+### Now Sync the app
+
+	$ argocd app sync hivemind-app
+
+### Check the status of the app after syncing
+
+	$ argocd app get hivemind-app
+
+### once you have done using argoCD you can go back to the default context in k8s
+
+	$ kubectl config set-context --current --namespace=default
+
+#### Everything you need to change on the k8s app will reside on the /kubernetes folder,i.e. if you need to change something on the deployment, use the /kubernetes/deployment.yaml file, edit it and push the change to the configured branch and it will automatically set the changes
 
 
 
@@ -311,7 +329,9 @@ you should get the following message:
 ## EKS Build
 
 	$./buildeks.sh
+## ArgoCD build
 
+	$./buildargocd.sh
 
 ## Resources
 
