@@ -1,9 +1,0 @@
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  namespace: hivemind
-  name: hivemind
-spec:
-  backend:
-    serviceName: hivemind-app
-    servicePort: 80

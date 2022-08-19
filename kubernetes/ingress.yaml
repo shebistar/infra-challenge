@@ -1,14 +1,9 @@
-apiVersion: v1
-items:
-- apiVersion: networking.k8s.io/v1
-  kind: Ingress
-    labels:
-      app.kubernetes.io/instance: hivemind-app
-    name: hivemind
-    namespace: hivemind
-  spec:
-    defaultBackend:
-      service:
-        name: hivemind-app
-        port:
-          number: 80
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  namespace: hivemind
+  name: hivemind
+spec:
+  backend:
+    serviceName: hivemind-app
+    servicePort: 80
