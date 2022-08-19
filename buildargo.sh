@@ -10,7 +10,7 @@ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/v2
 
 # brew install argocd
 
-# sleep 120
+sleep 120
 
 #Authenticate to ArgoCD
 
