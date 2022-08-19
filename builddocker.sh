@@ -2,10 +2,11 @@
 #dockerrepo="public.ecr.aws/a7r4i9q7"
 dockerrepo="public.ecr.aws/f8u3r2y0/greeter"
 aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws
+aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws
 echo -n "Type app version to build: "
 read ver
 echo ""
-echo "Container to be build/push: $dockerrepo/greeter:$ver"
+echo "Container to be build/push: $dockerrepo:$ver"
 echo ""
 echo "docker repo $dockerrepo and version $ver  full repo   $dockerrepo:$ver"
 sed "s/^ENV VERSION=.*/ENV VERSION=$ver/" Dockerfile >Dockerfile.new

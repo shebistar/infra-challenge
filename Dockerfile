@@ -19,7 +19,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends git mercurial o
 RUN go build -o /greeter greeter.go
 
 ENV HELLO_TAG="Hellooooo World!"
-ENV VERSION=v1.1
+ENV VERSION=v1.20
 
 CMD [ "/greeter" ]
 

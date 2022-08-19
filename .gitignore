@@ -3,3 +3,6 @@ terraform/terraform.tfstate*
 metrics-server-0.3.6*
 v0.3.6.tar.gz
 nohup.out
+kubernetes/nohup.out
+kubernetes/v0.3.6.tar.gz
+
