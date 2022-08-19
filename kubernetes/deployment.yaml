@@ -6,7 +6,7 @@ metadata:
     app: hivemind-app
   namespace: hivemind
 spec:
-  replicas: 3
+  replicas: 4
   selector:
     matchLabels:
       app: hivemind-app

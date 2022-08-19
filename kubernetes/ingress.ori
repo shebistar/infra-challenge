@@ -1,0 +1,28 @@
+apiVersion: v1
+items:
+- apiVersion: networking.k8s.io/v1
+  kind: Ingress
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"extensions/v1beta1","kind":"Ingress","metadata":{"annotations":{},"labels":{"app.kubernetes.io/instance":"hivemind-app"},"name":"hivemind","namespace":"hivemind"},"spec":{"backend":{"serviceName":"hivemind-app","servicePort":80}}}
+    creationTimestamp: "2022-08-19T08:32:50Z"
+    generation: 1
+    labels:
+      app.kubernetes.io/instance: hivemind-app
+    name: hivemind
+    namespace: hivemind
+    resourceVersion: "7124"
+    uid: c6c38a56-12ff-4891-988e-211d835fef92
+  spec:
+    defaultBackend:
+      service:
+        name: hivemind-app
+        port:
+          number: 80
+  status:
+    loadBalancer: {}
+kind: List
+metadata:
+  resourceVersion: ""
+  selfLink: ""
