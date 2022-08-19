@@ -14,7 +14,7 @@ We should be able to deploy your solution in any AWS account.
 
 # E2E Diagram of the solution:
 
-![E2E Diagram](E2E_Architecture.jpg?raw=true)
+![E2E Diagram](images/E2E_Architecture.jpg?raw=true)
 
 - This solution is condensed in two scripts, builddocker.sh and buildeks.sh. The first one is to generate the container needed for deploying in the EKS cluster, the second one is to generate the infrastructure needed to deploy the solution.
 
@@ -219,7 +219,7 @@ Open your favorite browser http://localhost:80 or simply run from the CLI
 
 Copy and Paste the token generated on the previous step and Click on `Sign in`
 
-![E2E Diagram](Kubernetes_Dashboard_Sign_In.png?raw=true)
+![E2E Diagram](images/Kubernetes_Dashboard_Sign_In.png?raw=true)
 
 # Deploy App on EKS
 
@@ -261,7 +261,7 @@ Copy and Paste the token generated on the previous step and Click on `Sign in`
 
 # Extra - Integrate with Gitops using ArgoCD
 
-## The idea is to create one repo for maintaining the variables of the EKS cluster and the App deployed
+## The idea is to create one additional repo for maintaining the values of the EKS cluster controlled with Gitops
 
 ### First we need to check the requirements:
 
