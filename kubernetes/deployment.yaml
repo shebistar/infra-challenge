@@ -30,3 +30,10 @@ spec:
         env:
         - name: HELLO_TAG
           value: "Hello World!"
+        resources:
+          limits:
+            cpu: 300ms
+            memory: 200Mi
+          requests:
+            cpu: 30ms
+            memory: 100mi
