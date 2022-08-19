@@ -6,7 +6,7 @@ metadata:
     app: hivemind-app
   namespace: hivemind
 spec:
-  replicas: 4
+  replicas: 3
   selector:
     matchLabels:
       app: hivemind-app
@@ -29,4 +29,4 @@ spec:
           protocol: TCP
         env:
         - name: HELLO_TAG
-          value: "Hellooooo World!"
+          value: "Hello World!"
